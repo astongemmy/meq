@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 import Home from '@/components/home';
 
 export const metadata: Metadata = {
-  title: 'Home | Mega Quest',
+  title: 'Quest'
 };
 
-const Homey = () => (
+const Quest = () => (
   <Home />
 );
 
-export default Homey;
+export default Quest;
