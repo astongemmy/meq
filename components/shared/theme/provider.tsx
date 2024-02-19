@@ -20,7 +20,7 @@ const AntDesignThemeProvider = ( { children }: { children: React.ReactNode }) =>
         },
         components: {
           Button: {
-            colorPrimary: colors.theme.secondary,
+            colorPrimary: colors.theme.primary,
             paddingContentHorizontal: 16,
             paddingContentVertical: 12,
             controlHeight: 44,
@@ -31,9 +31,14 @@ const AntDesignThemeProvider = ( { children }: { children: React.ReactNode }) =>
             size: 16,
           },
           Input: {
+            paddingInlineLG: 24,
+            paddingBlockLG: 14,
             borderRadius: 16,
             algorithm: true,
           },
+          Anchor: {
+            colorText: colors.theme.primary
+          }
         }
       }}
     >

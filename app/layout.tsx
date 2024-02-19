@@ -2,13 +2,13 @@ import { Rethink_Sans } from 'next/font/google';
 import type { Metadata } from 'next';
 import type { Viewport } from 'next';
 
+import '../public/css/globals.css';
+
 import AntDesignThemeProvider from '@/components/shared/theme/provider';
 import ThemeSwitcher from '@/components/shared/theme/switcher';
-import { Footer, Header } from 'antd/es/layout/layout';
+import GlobalStyles from '@/styles/global-styles';
 import ReduxProvider from '../store/provider';
-import '../public/css/globals.css';
 import colors from '../lib/colors';
-import { Layout } from 'antd';
 
 const rethinkSans = Rethink_Sans({
   variable: '--font-rethink-sans',
@@ -97,17 +97,11 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode;} >) => {
     <ReduxProvider>
       <html lang="en">
         <body className={`${rethinkSans.variable} ${rethinkSans.className}`}>
+          <GlobalStyles />
+          
           <AntDesignThemeProvider>
-            <Layout>
-              <ThemeSwitcher />
-              <Header>
-                Header side
-              </Header>
-              
-              {children}
-
-              <Footer>Small Footer</Footer>
-            </Layout>
+            {/* <ThemeSwitcher /> */}
+            {children}
           </AntDesignThemeProvider>
         </body>
       </html>
