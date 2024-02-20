@@ -8,11 +8,9 @@ import { combineReducers } from 'redux';
 
 import modalReducer from '@/components/shared/modals/reducer';
 import themeReducer from '@/components/shared/theme/reducer';
-import counterReducer from '@/components/search/reducer';
 import authReducer from '@/components/auth/reducer';
 
 const reducers = combineReducers({
-  counter: counterReducer,
   theme: themeReducer,
   modal: modalReducer,
   auth: authReducer,

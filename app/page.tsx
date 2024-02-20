@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: 'Home | Mega Quest',
 };
 
-const Homey = () => (
+const Page = () => (
   <Home />
 );
 
-export default Homey;
+export default Page;
