@@ -4,7 +4,6 @@ export const passwordRequirements = [
 	"Include at least one numerical digit (0-9).",
 	"Include at least one special character (e.g., !, @, #, $, etc.).",
 ];
-  
  
 export const isPasswordAcceptable = (password: string): boolean => {
 	// Check if password contains at least one digit

@@ -23,6 +23,7 @@ const colors: Colors = {
     secondary: '#f9822c',
     tertiary: '#fb1073',
     primary: '#2f42fa',
+    error: '#fb1073'
   },
 };
 

@@ -5,17 +5,9 @@ import Image from 'next/image';
 
 import EmailVerificationUsingLink from './link-verification';
 import EmailVerificationUsingCode from './code-verification';
-import { useAppSelector } from '@/store/hooks';
 import { AuthWrapper, LinkWrapper } from '../auth.styled';
-
-interface VerificationInterface {
-  [key: string]: {
-    description: string;
-    title: string;
-    icon: string;
-    alt: string;
-  };
-};
+import { VerificationInterface } from '../types';
+import { useAppSelector } from '@/store/hooks';
 
 const verificationInterface: VerificationInterface = {
 	unknownError: {

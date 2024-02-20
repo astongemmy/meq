@@ -99,7 +99,7 @@ export const SiderWrapper = styled(Sider)`
 		}
 
 		.badge {
-			${tw`flex items-center justify-center rounded-full px-2 py-1`};
+			${tw`flex items-center justify-center rounded-full px-4 py-1`};
 			border: 1px solid white;
 			font-size: 12px;
 		}

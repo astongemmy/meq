@@ -31,6 +31,12 @@ const customStyles = css`
   ::placeholder {
     color: #94A3B8;
   }
+
+  input {
+    &.ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
+      color: ${colors.theme.error};
+    }
+  }
 `
 
 const GlobalStyles = () => (

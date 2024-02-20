@@ -4,6 +4,7 @@ import { Divider, Button } from 'antd';
 import Image from 'next/image';
 
 import { AuthWrapper } from './auth.styled';
+import { AuthAction } from './types';
 
 const socialAuthProviders = [
   {
@@ -17,13 +18,6 @@ const socialAuthProviders = [
     text: 'Apple',
   }
 ];
-
-interface AuthAction {
-  [key: string]: {
-    description: string;
-    title: string;
-  };
-};
 
 const authActions: AuthAction = {
   signIn: {

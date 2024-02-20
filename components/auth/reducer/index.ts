@@ -1,33 +1,5 @@
+import { IsVerifyingPayload, ModalState, VerificationErrorPayload } from '../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface VerificationErrorPayload {
-  unknownError?: boolean;
-  invalidCode?: boolean;
-  expiredCode?: boolean;
-  expiredLink?: boolean;
-  OTPError?: boolean;
-};
-
-interface IsVerifyingPayload {
-  usingLink?: boolean;
-  usingCode?: boolean;
-};
-
-export interface ModalState {
-  isVerifying: {
-    usingLink: boolean;
-    usingCode: boolean;
-  };
-  verificationStatus: string;
-  isVerified: boolean;
-  verificationError: {
-    unknownError: boolean;
-    invalidCode: boolean;
-    expiredCode: boolean;
-    expiredLink: boolean;
-    OTPError: boolean;
-  }
-};
 
 const initialState: ModalState = {
   isVerifying: {

@@ -1,30 +1,29 @@
 'use client';
 
-import { ExclamationCircleFilled, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { ChangeEvent, useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button } from 'antd';
 import Link from 'next/link';
 
+import { SignInCredentials, SignInValidationError } from '../types';
 import { updateModal } from '@/components/shared/modals/reducer';
-import { Credentials, ValidationError } from '@/types/sign-up';
+import InputField from '@/components/shared/inputs';
 import { AuthFormWrapper } from './form.styled';
 import { useAppDispatch } from '@/store/hooks';
 import { isValidEmail } from '../utils';
-import Password from 'antd/es/input/Password';
 
 const SignInForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
-  const [validationError, setValidationError] = useState<ValidationError>({
-    wrongPassword: false,
+  const [validationError, setValidationError] = useState<SignInValidationError>({
+    wrongPassword: true,
     invalidEmail: false
   });
 
-  const [credentials, setCredentials] = useState<Credentials>({
-    password: "",
-    email: "",
+  const [credentials, setCredentials] = useState<SignInCredentials>({
+    password: '',
+    email: '',
   });
 
   const handleCredentialChange = ({
@@ -57,12 +56,14 @@ const SignInForm = () => {
     }
   }));
 
-  const togglePassword = (): void => setShowPassword(!showPassword);
-
   const handleSignIn = (e: React.FormEvent) => {
     setIsLoading(true);
 
     setTimeout(() => {
+      setValidationError((prev) => ({
+        ...prev,
+        wrongPassword: true
+      }));
       setIsLoading(false);
     }, 2000);
 
@@ -77,68 +78,63 @@ const SignInForm = () => {
 
   return (
     <AuthFormWrapper onSubmit={handleSignIn}>
-      <div className="input-wrapper">
-        <label htmlFor="email">Email</label>
+      <InputField
+        hasError={validationError.invalidEmail}
+        onChange={handleCredentialChange}
+        value={credentials.email}
+        placeholder="Enter Email"
+        label="Email"
+        size="large"
+        name="email"
+        type="email"
+        id="email"
+        required
+      />
 
-        <input
-          className={validationError.invalidEmail ? 'error' : ''}
-          onChange={handleCredentialChange}
-          defaultValue={credentials.email}
-          placeholder="Enter Email"
-          name="email"
-          type="email"
-          id="email"
-        />
-      </div>
-
-      <div className="input-wrappe">
-        <label htmlFor="password">Password</label>
-
-        <Password
-          visibilityToggle={{ visible: showPassword, onVisibleChange: setShowPassword }}
-          className={validationError.wrongPassword ? 'error' : ''}
-          defaultValue={credentials.password}
-          onChange={handleCredentialChange}
-          placeholder="Enter Password"
-          name="password"
-          id="password"
-          iconRender={(visible) => (visible ? <EyeInvisibleOutlined height="2rem" width="2rem" /> : <EyeOutlined height="2rem" width="2rem" />)}
-          size="large"
-        />
-        
-        {validationError.wrongPassword && (
-          <div className="password-error">
-            <ExclamationCircleFilled />
-            Incorrect Password. Please try again
+      <InputField
+        hasError={validationError.wrongPassword}
+        onChange={handleCredentialChange}
+        value={credentials.password}
+        placeholder="Enter Password"
+        label="Password"
+        type="password"
+        name="password"
+        id="password"
+        size="large"
+        actionText={
+          <div className="forgot-password">
+            <button
+              disabled={!validationError.wrongPassword}
+              onClick={openPasswordResetModal}
+              type="button"
+            >
+              Forgot password
+            </button>
           </div>
-        )}
+        }
+        helpText={
+          validationError.wrongPassword && (
+            <div className="password-error">
+              <ExclamationCircleFilled />
+              Incorrect Password. Please try again
+            </div>
+          )
+        }
+      />
 
-        <div className="forgot-password">
-          <button
-            disabled={!validationError.wrongPassword}
-            onClick={openPasswordResetModal}
-            type="button"
-          >
-            Forgot password
-          </button>
-        </div>
-      </div>
+      <Button
+        disabled={disableSignInButton}
+        loading={isLoading}
+        htmlType="submit"
+        type="primary"
+        size="large"
+      >
+        {!isLoading && "Login"}
+      </Button>
 
-      <div>
-        <Button
-          disabled={disableSignInButton}
-          loading={isLoading}
-					htmlType="submit"
-          type="primary"
-					size="large"
-        >
-					{!isLoading && 'Login'}
-				</Button>
-      </div>
-
-      <div className="create-account">
+      <p className="create-account">
         Don’t have an account? <Link href="/auth/sign-up">Sign up</Link>
-      </div>
+      </p>
     </AuthFormWrapper>
   );
 };

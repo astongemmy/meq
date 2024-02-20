@@ -13,48 +13,6 @@ export const AuthFormWrapper = styled.form`
 		color: #7085a2;
 	}
 
-	.input-wrapper {
-		${tw`flex flex-col gap-2 relative`};
-
-		&.verify-email {
-			${tw`flex-row gap-8`}
-
-			input[type='tel'] {
-				${tw`w-1/6 text-center`};
-			}
-		}
-
-		label {
-			line-height: 21px;
-			font-weight: 400;
-			font-size: 16px;
-			color: #1e293b;
-		}
-
-		input[type='email'], input[type='password'], input[type='text'], input[type='tel'] {
-			${tw`w-full px-6 py-4 rounded-lg outline-none`};
-			font-family: Helvetica Neue;
-			border: 1px solid #e2e8f0;
-			border-radius: 15px;
-			line-height: 21px;
-			font-weight: 400;
-			font-size: 16px;
-
-			:placeholder {
-				color: #94A3B8;
-			}
-
-			:disabled {
-				cursor: not-allowed;
-			}
-
-			&.error {
-				border-color: #fb1073;
-				color: #fb1073;
-			}
-		}
-	}
-
 	.password-error, .otp-error {
 		${tw`flex gap-2`};
 		line-height: 18px;

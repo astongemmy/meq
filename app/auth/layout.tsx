@@ -1,11 +1,11 @@
 import { Layout, Flex, Card, Space, Avatar } from 'antd';
+import { StarFilled } from '@ant-design/icons';
 import Title from 'antd/es/typography/Title';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 
 import { ContentWrapper, LayoutWrapper, SiderWrapper } from './layout.styled';
 import Meta from 'antd/es/card/Meta';
-import { StarFilled } from '@ant-design/icons';
 
 export const metadata: Metadata = {
   title: {

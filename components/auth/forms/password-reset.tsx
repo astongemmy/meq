@@ -1,21 +1,18 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
+import { Button } from 'antd';
 
 import { updateModal } from '@/components/shared/modals/reducer';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { PasswordResetValidationError } from '../types';
+import InputField from '@/components/shared/inputs';
 import { AuthFormWrapper } from './form.styled';
-import { Button } from 'antd';
-
-
-interface PasswordResetError {
-  emailNotFound: boolean;
-};
 
 const PasswordResetForm = () => {
 	const dispatch = useAppDispatch();
   
-	const [passwordResetError, setPasswordResetError] = useState<PasswordResetError>({
+	const [validationError, setValidationError] = useState<PasswordResetValidationError>({
     emailNotFound: true,
   });
 
@@ -64,33 +61,32 @@ const PasswordResetForm = () => {
 				)}
 			</p>
 
-      <div className="input-wrapper">
-        <label htmlFor="email">Email</label>
+			<InputField
+				onChange={handleCredentialChange}
+				placeholder="example@abcmail.com"
+				disabled={!allowEmailEdit}
+				label="Email"
+				value={email}
+				size="large"
+				name="email"
+				type="email"
+				id="email"
+				required
+			/>
 
-        <input
-          onChange={handleCredentialChange}
-          placeholder="example@abcmail.com"
-					disabled={!allowEmailEdit}
-          value={email}
-          name="email"
-          type="email"
-          id="email"
-        />
-      </div>
-
-      <div>
-				{allowEmailEdit ? (
-					<Button
-						onClick={sendVerificationEmail}
-						disabled={!email || isLoading}
-						loading={isLoading}
-						htmlType="submit"
-						type="primary"
-						size="large"
-					>
-						{!isLoading && 'Continue'}
-					</Button>
-				) : (
+			{allowEmailEdit ? (
+				<Button
+					onClick={sendVerificationEmail}
+					disabled={!email || isLoading}
+					loading={isLoading}
+					htmlType="submit"
+					type="primary"
+					size="large"
+				>
+					{!isLoading && 'Continue'}
+				</Button>
+			) : (
+				<div>
 					<Button
 						className="edit-email"
 						onClick={editEmail}
@@ -99,8 +95,8 @@ const PasswordResetForm = () => {
 					>
 						Edit Email
 					</Button>
-				)}
-      </div>
+				</div>
+			)}
     </AuthFormWrapper>
   );
 };

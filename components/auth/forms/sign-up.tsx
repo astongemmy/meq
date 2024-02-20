@@ -1,34 +1,30 @@
 'use client';
 
 import { Space, Checkbox, CheckboxProps, Button } from 'antd';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 import { useState } from 'react';
 import Link from 'next/link';
-import {
-  ExclamationCircleFilled,
-  EyeInvisibleOutlined,
-  EyeOutlined,
-} from '@ant-design/icons';
 
 import { passwordRequirements, isPasswordAcceptable, doesPasswordsMatch, isValidEmail } from '../utils';
-import { Credentials, ValidationError } from '@/types/sign-up';
+import { SignUpCredentials, SignUpValidationError } from '../types';
+import InputField from '@/components/shared/inputs';
 import { AuthFormWrapper } from './form.styled';
 
 const SignUpForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [validationError, setValidationError] = useState<ValidationError>({
+  const [validationError, setValidationError] = useState<SignUpValidationError>({
     unacceptablePassword: false,
     differentPasswords: false,
     invalidEmail: false,
   });
 
-  const [credentials, setCredentials] = useState<Credentials>({
-    confirmPassword: "",
+  const [credentials, setCredentials] = useState<SignUpCredentials>({
+    confirmPassword: '',
     acceptTerms: false,
-    fullName: "",
-    password: "",
-    email: "",
+    fullName: '',
+    password: '',
+    email: '',
   });
 
   const handleCredentialChange = ({
@@ -68,8 +64,6 @@ const SignUpForm = () => {
     }
   };
 
-  const togglePassword = (): void => setShowPassword(!showPassword);
-
   const handleAcceptTerms: CheckboxProps['onChange'] = (e) => {
     setCredentials({
       ...credentials,
@@ -95,90 +89,64 @@ const SignUpForm = () => {
 
   return (
     <AuthFormWrapper onSubmit={handleSignUp}>
-      <div className="input-wrapper">
-        <label htmlFor="full-name">Full Name</label>
+      <InputField
+        onChange={handleCredentialChange}
+        value={credentials.fullName}
+        placeholder="John Doe"
+        label="Full Name"
+        name="fullName"
+        id="fullName"
+        size="large"
+        type="text"
+        required
+      />
+      
+      <InputField
+        hasError={validationError.invalidEmail}
+        placeholder="example@abcmail.com"
+        onChange={handleCredentialChange}
+        value={credentials.email}
+        label="Email"
+        size="large"
+        name="email"
+        type="email"
+        id="email"
+        required
+      />
+      
+      <InputField
+        hasError={validationError.unacceptablePassword}
+        onChange={handleCredentialChange}
+        value={credentials.password}
+        placeholder="Enter Password"
+        label="Password"
+        name="password"
+        type="password"
+        id="password"
+        size="large"
+        required
+      />
 
-        <input
-          defaultValue={credentials.fullName}
-          onChange={handleCredentialChange}
-          placeholder="John Doe"
-          name="fullName"
-          id="full-name"
-          type="text"
-          required
-        />
-      </div>
-
-      <div className="input-wrapper">
-        <label htmlFor="email">Email</label>
-
-        <input
-          className={validationError.invalidEmail ? 'error' : ''}
-          placeholder="example@abcmail.com"
-          onChange={handleCredentialChange}
-          defaultValue={credentials.email}
-          name="email"
-          type="email"
-          id="email"
-          required
-        />
-      </div>
-
-      <div className="input-wrapper">
-        <label htmlFor="password">Password</label>
-
-        <div className="password-wrapper">
-          <input
-            type={showPassword ? "text" : "password"}
-            defaultValue={credentials.password}
-            onChange={handleCredentialChange}
-            placeholder="Enter Password"
-            name="password"
-            id="password"
-            required
-          />
-
-          <button
-            className="toggle-password"
-            onClick={togglePassword}
-            type="button"
-          >
-            {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-          </button>
-        </div>
-      </div>
-
-      <div className="input-wrapper">
-        <label htmlFor="confirm-password">Confirm Password</label>
-
-        <div className="password-wrapper">
-          <input
-            className={validationError.differentPasswords ? 'error' : ''}
-            defaultValue={credentials.confirmPassword}
-            type={showPassword ? 'text' : 'password'}
-            onChange={handleCredentialChange}
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            id="confirm-password"
-            required
-          />
-
-          <button
-            className="toggle-password"
-            onClick={togglePassword}
-            type="button"
-          >
-            {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
-          </button>
-        </div>
-
-        {validationError.differentPasswords && (
-          <div className="password-error">
-            <ExclamationCircleFilled />
-            Password doesn’t match
-          </div>
-        )}
-      </div>
+      <InputField
+        hasError={validationError.differentPasswords}
+        value={credentials.confirmPassword}
+        onChange={handleCredentialChange}
+        placeholder="Confirm Password"
+        label="Confirm Password"
+        name="confirmPassword"
+        id="confirmPassword"
+        type="password"
+        size="large"
+        required
+        helpText={
+          validationError.differentPasswords && (
+            <div className="password-error">
+              <ExclamationCircleFilled />
+              Password doesn’t match
+            </div>
+          )
+        }
+      />
 
       {validationError.unacceptablePassword && (
         <div className="password-requirements">
@@ -202,21 +170,19 @@ const SignUpForm = () => {
         </p>
       </Space>
 
-      <div>
-        <Button
-          disabled={disabledSignUpButton}
-          loading={isLoading}
-					htmlType="submit"
-          type="primary"
-					size="large"
-        >
-					{!isLoading && 'Sign Up'}
-				</Button>
-      </div>
+      <Button
+        disabled={disabledSignUpButton}
+        loading={isLoading}
+        htmlType="submit"
+        type="primary"
+        size="large"
+      >
+        {!isLoading && 'Sign Up'}
+      </Button>
 
-      <div className="create-account">
+      <p className="create-account">
         Already have an account? <Link href="/auth">Sign in</Link>
-      </div>
+      </p>
     </AuthFormWrapper>
   );
 };

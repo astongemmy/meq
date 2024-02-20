@@ -1,33 +1,31 @@
 'use client';
 
 import { ExclamationCircleFilled } from '@ant-design/icons';
+import { Button, Flex, InputRef } from 'antd';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import { Button } from 'antd';
 
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setIsVerified, setIsVerifying, updateVerificationError } from '../reducer';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { EmailVerificationCredentials } from '../types';
+import useCountdownTimer from '@/hooks/countdown-timer';
 import { AuthFormWrapper } from '../forms/form.styled';
-
-interface Credentials {
-  confirmationCode: Array<string>;
-  resendCode: boolean;
-  email: string;
-}
+import InputField from '@/components/shared/inputs';
 
 const codeDigits = 6;
 
 const EmailVerificationUsingCode = () => {
 	const { verificationError, isVerifying, isVerified } = useAppSelector(state => state.auth);
-	const [credentials, setCredentials] = useState<Credentials>({
+	const [credentials, setCredentials] = useState<EmailVerificationCredentials>({
     confirmationCode: new Array(codeDigits).fill(''),
     resendCode: false,
     email: '',
   });
 
 	const isCodeProvided = credentials.confirmationCode.filter((item) => item).length === codeDigits;
-	const hasCodeVerificationError = verificationError.expiredCode || verificationError.invalidCode;
-	const otpInputRefs = Array.from({ length: codeDigits }, () => useRef<HTMLInputElement>(null));
+	const isVerificationError = verificationError.expiredCode || verificationError.invalidCode;
+	const otpInputRefs = Array.from({ length: codeDigits }, () => useRef<InputRef>(null));
+	const { restartTimer, timeLeft, timeUp } = useCountdownTimer(0.5);
   const dispatch = useAppDispatch();
   
   const verifyEmail = (e: React.MouseEvent) => {
@@ -66,36 +64,43 @@ const EmailVerificationUsingCode = () => {
 		});
 
 		setCredentials({ ...credentials, confirmationCode: newConfirmationCode });
-
+		console.log(otpInputRefs);
+		
 		if (value.length >= 1 && inputIndex < otpInputRefs.length - 1) {
 			otpInputRefs[inputIndex + 1].current?.focus();
 		} else if (value.length === 0 && inputIndex > 0) {
 			otpInputRefs[inputIndex - 1].current?.focus();
 		}
 	};
+
+	const handleOTPRequest = () => {
+		restartTimer();
+	};
 	
-  return (
+	return (
 		<AuthFormWrapper>
-			<div className="input-wrapper verify-email">
+			<Flex gap={24} justify="space-between">
 				{otpInputRefs.map((otpInputRef, index) => (
-					<input
-						className={hasCodeVerificationError ? 'error' : ''}
-						defaultValue={credentials.confirmationCode[index]}
+					<InputField
+						value={credentials.confirmationCode[index]}
 						onInput={(e) => handleOTPInput(e, index)}
 						onFocus={(e) => e.target.select()}
 						onPaste={handleInvalidOTPOnPaste}
 						onKeyDown={handleInvalidOTPInput}
+						hasError={isVerificationError}
 						autoFocus={index === 0}
 						ref={otpInputRef}
+						className="otp"
 						placeholder="-"
 						maxLength={1}
 						key={index}
 						type="tel"
+						required
 					/>
 				))}
-			</div>
+			</Flex>
 
-			{hasCodeVerificationError && (
+			{isVerificationError && (
 				<div className="otp-error">
 					<ExclamationCircleFilled />
 					{verificationError.invalidCode ? 'Invalid' : 'Expired'} code entered
@@ -103,28 +108,33 @@ const EmailVerificationUsingCode = () => {
 			)}
 
 			<div>
-				<button type="button" className="request-code">
+				<button
+					onClick={handleOTPRequest}
+					className="request-code"
+					disabled={!timeUp}
+					type="button"
+				>
 					<Image
 						src="/images/icons/timer.svg"
 						alt="timer_icon"
 						height={29}
 						width={29}
 					/>
-					Request a new code in 5:00
+					Request a new code {!timeUp && `in ${timeLeft}`}
 				</button>
-
-				<Button
-					disabled={!isCodeProvided || isVerifying.usingCode}
-					className={hasCodeVerificationError ? 'error' : ''}
-					loading={isVerifying.usingCode}
-					onClick={verifyEmail}
-					htmlType="submit"
-					type="primary"
-					size="large"
-				>
-					{hasCodeVerificationError ? 'Request New OTP' : 'Confirm Email'}
-				</Button>
 			</div>
+
+			<Button
+				disabled={!isCodeProvided || isVerifying.usingCode}
+				className={isVerificationError ? 'error' : ''}
+				loading={isVerifying.usingCode}
+				onClick={verifyEmail}
+				htmlType="submit"
+				type="primary"
+				size="large"
+			>
+				{isVerificationError ? 'Request New OTP' : 'Confirm Email'}
+			</Button>
 		</AuthFormWrapper>
   );
 };

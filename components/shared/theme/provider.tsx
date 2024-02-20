@@ -17,6 +17,7 @@ const AntDesignThemeProvider = ( { children }: { children: React.ReactNode }) =>
           fontFamily: 'var(--font-rethink-sans)',
           colorWarning: colors.theme.secondary,
           colorPrimary: colors.theme.primary,
+          colorError: colors.theme.error,
         },
         components: {
           Button: {
