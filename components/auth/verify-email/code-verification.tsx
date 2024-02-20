@@ -12,7 +12,7 @@ import useCountdownTimer from '@/hooks/countdown-timer';
 import { AuthFormWrapper } from '../forms/form.styled';
 import InputField from '@/components/shared/inputs';
 
-const codeDigits = 6;
+const codeDigits = 5;
 
 const EmailVerificationUsingCode = () => {
 	const { verificationError, isVerifying, isVerified } = useAppSelector(state => state.auth);
@@ -79,7 +79,7 @@ const EmailVerificationUsingCode = () => {
 	
 	return (
 		<AuthFormWrapper>
-			<Flex gap={24} justify="space-between">
+			<Flex className="otp-wrapper" justify="space-between">
 				{otpInputRefs.map((otpInputRef, index) => (
 					<InputField
 						value={credentials.confirmationCode[index]}

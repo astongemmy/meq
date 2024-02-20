@@ -120,7 +120,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                     </div>
                   </Card>
 
-                  <Flex justify="space-between" gap={2}>
+                  <Flex justify="space-between" gap={8} style={{ overflow: 'auto' }}>
                     {featureItems.map(({ text, icon, alt }) => (
                       <span key={text} className="badge">
                         <Image src={icon} alt={alt} height={24} width={24} />

@@ -11,9 +11,8 @@ export const LayoutWrapper = styled(Layout)`
 `;
 
 export const SiderWrapper = styled(Sider)`
-	${tw`min-h-screen text-white overflow-hidden`};
+	${tw`hidden lg:block min-h-screen lg:px-8 xl:px-16 py-12 text-white overflow-hidden`};
   background: ${colors.theme.primary} !important;
-  padding: 32px 57px;
 
   .container {
     ${tw`h-full flex-col justify-between`};
@@ -99,14 +98,13 @@ export const SiderWrapper = styled(Sider)`
 		}
 
 		.badge {
-			${tw`flex items-center justify-center rounded-full px-4 py-1`};
-			border: 1px solid white;
+			${tw`flex items-center whitespace-nowrap gap-2 border border-white justify-center rounded-full px-4 py-1`};
 			font-size: 12px;
 		}
   }
 `;
 
 export const ContentWrapper = styled(Content)`
-  ${tw`flex flex-col items-center min-h-screen bg-white p-32 overflow-y-auto`};
+  ${tw`flex flex-col items-center min-h-screen bg-white px-8 py-12 md:px-20 md:py-24 xl:p-32 overflow-y-auto`};
   color: #7085A2;
 `;

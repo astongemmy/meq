@@ -7,7 +7,7 @@ import { Flex } from 'antd';
 import colors from '@/lib/colors';
 
 export const AuthWrapper = styled(Flex)`
-	${tw`w-full gap-8`};
+	${tw`w-full gap-6 md:gap-8`};
 		
 	h1 {
 		margin-bottom: 12px;
@@ -24,7 +24,7 @@ export const AuthWrapper = styled(Flex)`
 	}
 
 	.social-auth {
-		${tw`w-full flex gap-6 justify-between items-center`};
+		${tw`w-full flex-col md:flex-row flex gap-6 justify-between items-center`};
 
 		button {
 			${tw`w-full flex gap-4 items-center px-4 py-6 md:w-1/2`};

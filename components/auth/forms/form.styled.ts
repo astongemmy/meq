@@ -4,6 +4,10 @@ import tw, { styled } from 'twin.macro';
 import colors from '@/lib/colors';
 
 export const AuthFormWrapper = styled.form`
+	.otp-wrapper {
+		${tw`gap-1 md:gap-8`}
+	}
+
 	${tw`flex flex-col gap-6`};
 
 	p {

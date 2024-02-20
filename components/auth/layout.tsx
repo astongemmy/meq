@@ -51,7 +51,7 @@ const AuthLayout = ({ children, authAction }: AuthProp) => {
           <div className="social-auth">
             {socialAuthProviders.map(({ text, icon, alt }) => (
               <Button key={text} icon={<Image height={32} width={32} src={icon} alt={alt} />} htmlType="button">
-                {authAction === 'signUp' ? 'Login' : 'Sign up'} with {text}
+                {authAction === 'signIn' ? 'Login' : 'Sign up'} with {text}
               </Button>
             ))}
           </div>
