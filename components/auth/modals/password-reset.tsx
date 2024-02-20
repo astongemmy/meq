@@ -51,6 +51,7 @@ const PasswordResetModal = () => {
 			closeIcon={null}
 			footer={null}
 			open={open}
+			centered
 		>
 			<PasswordResetForm />
 		</ModalWrapper>

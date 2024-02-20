@@ -71,7 +71,6 @@ const SignInForm = () => {
   };
 
   const disableSignInButton = (
-    Object.values(validationError).some((entry) => entry) ||
     !Object.values(credentials).every((entry) => entry) ||
     isLoading
   );

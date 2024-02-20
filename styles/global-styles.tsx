@@ -33,9 +33,9 @@ const customStyles = css`
       color: ${colors.theme.error};
     }
   }
-
+  
   ::placeholder {
-    color: #94A3B8;
+    color: ${colors.theme.placeholder};
   }
 
   * {

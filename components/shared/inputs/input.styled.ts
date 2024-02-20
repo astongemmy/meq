@@ -22,10 +22,6 @@ export const InputWrapper = styled.div`
         font-family: Helvetica Neue;
         line-height: 21px;
         font-weight: 400;
-        font-size: 16px;  
-
-        :placeholder {
-            color: #94A3B8;
-        }
+        font-size: 16px;
     }
 `;

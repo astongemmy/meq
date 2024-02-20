@@ -1,6 +1,6 @@
 'use client';
 
-import { Divider, Button } from 'antd';
+import { Divider, Button, Flex } from 'antd';
 import Image from 'next/image';
 
 import { AuthWrapper } from './auth.styled';
@@ -11,11 +11,13 @@ const socialAuthProviders = [
     icon: '/images/icons/google-icon.svg',
     alt: 'google_icon',
     text: 'Google',
+    iconSize: 32
   },
   {
     icon: '/images/icons/apple-icon.svg',
     alt: 'apple_icon',
     text: 'Apple',
+    iconSize: 27
   }
 ];
 
@@ -48,13 +50,13 @@ const AuthLayout = ({ children, authAction }: AuthProp) => {
       
       {['signUp', 'signIn'].includes(authAction) && (
         <>
-          <div className="social-auth">
-            {socialAuthProviders.map(({ text, icon, alt }) => (
-              <Button key={text} icon={<Image height={32} width={32} src={icon} alt={alt} />} htmlType="button">
+          <Flex gap={24} justify="space-between" align="center" className="social-auth">
+            {socialAuthProviders.map(({ iconSize, text, icon, alt }) => (
+              <Button key={text} size="large" icon={<Image src={icon} height={iconSize} width={iconSize} alt={alt} />} htmlType="button" block>
                 {authAction === 'signIn' ? 'Login' : 'Sign up'} with {text}
               </Button>
             ))}
-          </div>
+          </Flex>
 
           <Divider plain className="divider">or</Divider>
         </>

@@ -73,8 +73,8 @@ const EmailVerification = () => {
 			<Image
 				src={verificationInterface[statusKey].icon}
 				alt={verificationInterface[statusKey].alt}
-				height={143}
-				width={127}
+				height={135}
+				width={120}
 				priority
 			/>
 

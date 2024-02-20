@@ -17,22 +17,22 @@ const AntDesignThemeProvider = ( { children }: { children: React.ReactNode }) =>
           fontFamily: 'var(--font-rethink-sans)',
           colorWarning: colors.theme.secondary,
           colorPrimary: colors.theme.primary,
-          colorError: colors.theme.error,
+          colorError: colors.theme.error
         },
         components: {
           Button: {
             colorPrimary: colors.theme.primary,
-            paddingContentHorizontal: 16,
-            paddingContentVertical: 12,
+            paddingInlineLG: 16,
+            paddingBlockLG: 12,
             controlHeight: 44,
             borderRadius: 12,
             algorithm: true,
             fontWeight: 400,
-            lineHeight: 20,
             size: 16,
           },
           Input: {
-            paddingInlineLG: 24,
+            colorTextPlaceholder: colors.theme.placeholder,
+            paddingInlineLG: 20,
             paddingBlockLG: 14,
             borderRadius: 16,
             algorithm: true,

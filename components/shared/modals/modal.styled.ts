@@ -3,12 +3,11 @@ import { Modal } from 'antd';
 
 import { customModalStylingProps, CustomModalProps } from '.';
 
-const marginRight = ({ isResetPassword }: CustomModalProps) => isResetPassword && 'calc((60% - 520px) / 2)';
 const width = ({ isResetPassword }: CustomModalProps) => isResetPassword && '520px !important';
-
+const marginRight = ({ isResetPassword }: CustomModalProps) => isResetPassword && '-40%';
 const twStyles = (props: CustomModalProps) => {
 	const twCss: { [key: string]: object } = {
-		isResetPassword: tw`top-1/2 -translate-y-1/2 mt-0`,
+		isResetPassword: tw`mt-auto`,
 	};
 	
 	const stylingProps = Object.entries(props).filter(([key, value]) => (
@@ -23,7 +22,10 @@ const twStyles = (props: CustomModalProps) => {
 export const ModalWrapper = styled(Modal)`
 	margin-right: ${(props: CustomModalProps) => marginRight(props)};
 	width: ${(props: CustomModalProps) => width(props)};
-	${(props: CustomModalProps) => twStyles(props)};
+
+	@media (max-width: 786px) {
+		margin-right: auto;
+	}
 
 	.ant-modal-title {
 		line-height: 31px;

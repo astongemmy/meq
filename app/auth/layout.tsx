@@ -1,11 +1,10 @@
-import { Layout, Flex, Card, Space, Avatar } from 'antd';
-import { StarFilled } from '@ant-design/icons';
+import { Layout, Flex, Card, Space, Avatar, Carousel, Rate } from 'antd';
 import Title from 'antd/es/typography/Title';
+import Meta from 'antd/es/card/Meta';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 
 import { ContentWrapper, LayoutWrapper, SiderWrapper } from './layout.styled';
-import Meta from 'antd/es/card/Meta';
 
 export const metadata: Metadata = {
   title: {
@@ -14,11 +13,30 @@ export const metadata: Metadata = {
   },
 };
 
-const cardItems = [
-  'Serve more clients in 1/10th of the time.',
-  'Save time, quit suffering to access insights.',
-  'Hear the truth exactly as it was said.',
-  'Conduct 100’s-1000’s of interviews if you wish.'
+const tips = [
+  {
+    content: [
+      'We used traditional data collection with google forms. Then we used MegaQuest and compared the response rates, data quality and richness of insights. MegaQuest performed 800% times better'
+    ],
+    avatar: '/images/reviews/eva-sawyer.svg',
+    title: 'CEO, Fashworks',
+    reviewer: 'Eva Sawyer',
+    isListContent: false,
+    rating: 3.5
+  },
+  {
+    content: [
+      'Serve more clients in 1/10th of the time.',
+      'Save time, quit suffering to access insights.',
+      'Hear the truth exactly as it was said.',
+      'Conduct 100’s-1000’s of interviews if you wish.'
+    ],
+    avatar: '/images/reviews/eva-sawyer.svg',
+    title: 'CEO, Fashworks',
+    reviewer: 'Eva Sawyer',
+    isListContent: true,
+    rating: 5
+  }
 ];
 
 const featureItems = [
@@ -62,8 +80,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                   />
 
                   <Title>
-                    Transformative<br />
-                    Frontiers: Rethinking Possibilities in Research
+                    Deep Insights for the Truly Curious
                   </Title>
 
                   <Title level={2}>
@@ -72,53 +89,52 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
                 </Space>
 
                 <Space direction="vertical" size="large">
-                  <Card
-                    bordered={false}
-                    className="card"
-                    title={
-                      <div>
-                        <Image
-                          src="/images/icons/trophy.svg"
-                          alt="trophy_icon"
-                          height={30}
-                          width={30}
-                        />
-                        800x better performance
-                      </div>
-                    }
-                  >
-                    {/* {cardItems.map((text) => (
-                      <p key={text}>
-                        <Image
-                          src="/images/icons/tick-square.svg"
-                          alt="tick_icon"
-                          height={24}
-                          width={24}
-                        />
-                        {text}
-                      </p>
-                    ))} */}
-
-                    <p>
-                      We used traditional data collection with google forms. Then we used MegaQuest and compared the response rates, data quality and richness of insights. MegaQuest performed 800% times better
-                    </p>
-
-                    <div className="card-meta">
-                      <Meta
-                        avatar={<Avatar src="/images/reviews/eva-sawyer.svg" />}
-                        description="CEO, Fashworks"
-                        title="Eva Sawyer"
-                      />
-
-                      <span>
-                        <StarFilled />
-                        <StarFilled />
-                        <StarFilled />
-                        <StarFilled />
-                        <StarFilled />
-                      </span>
-                    </div>
-                  </Card>
+                  <Carousel autoplay>
+                    {tips.map(({ isListContent, reviewer, content, rating, title, avatar }, index) => (
+                      <Card
+                        key={reviewer + index}
+                        bordered={false}
+                        className="card"
+                        title={
+                          <div>
+                            <Image
+                              src="/images/icons/trophy.svg"
+                              alt="trophy_icon"
+                              height={30}
+                              width={30}
+                            />
+                            800x better performance
+                          </div>
+                        }
+                      >
+                        
+                        {content.map((text) => (
+                          <p key={text}>
+                            {isListContent && (
+                              <Image
+                                src="/images/icons/tick-square.svg"
+                                alt="tick_icon"
+                                height={24}
+                                width={24}
+                              />
+                            )}
+                            
+                            {text}
+                          </p>
+                        ))}
+                        
+                        <div className="card-meta">
+                          <Meta
+                            avatar={<Avatar src={avatar} size="large" shape="square" />}
+                            description={title}
+                            title={reviewer}
+                          />
+                          
+                          <Rate allowHalf defaultValue={rating} />
+                        </div>
+                      </Card>
+                    ))}
+                  </Carousel>
 
                   <Flex justify="space-between" gap={8} style={{ overflow: 'auto' }}>
                     {featureItems.map(({ text, icon, alt }) => (

@@ -24,14 +24,17 @@ export const AuthWrapper = styled(Flex)`
 	}
 
 	.social-auth {
-		${tw`w-full flex-col md:flex-row flex gap-6 justify-between items-center`};
+		${tw`flex-col md:flex-row`};
 
 		button {
-			${tw`w-full flex gap-4 items-center px-4 py-6 md:w-1/2`};
 			color: #262626 !important;
 			line-height: 22.91px;
 			font-size: 17.59px;
 			font-weight: 400;
+
+			span.ant-btn-icon {
+				${tw`absolute left-4 top-1/2 -translate-y-1/2`}
+			}
 		}
 	}
 

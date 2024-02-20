@@ -64,21 +64,15 @@ export const SiderWrapper = styled(Sider)`
 			}
 
 			.card-meta {
-				${tw`flex justify-between items-center`};
+				${tw`flex mt-3 justify-between items-center`};
 
 				svg {
-					color: #faff00;
+					font-size: 80%;
 				}
 				
 				.ant-card-meta {
 					${tw`flex items-center`};
-
-					span {
-						${tw`rounded-lg h-full`};
-						height: 48px;
-						width: 48px;
-					}
-
+					
 					.ant-card-meta-description {
 						color: rgba(255, 255, 255, 0.7);
 						line-height: 18.3px;

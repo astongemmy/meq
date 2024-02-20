@@ -2,7 +2,7 @@
 
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { Button, Flex, InputRef } from 'antd';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { setIsVerified, setIsVerifying, updateVerificationError } from '../reducer';
@@ -76,6 +76,12 @@ const EmailVerificationUsingCode = () => {
 	const handleOTPRequest = () => {
 		restartTimer();
 	};
+
+	useEffect(() => {
+		if (otpInputRefs[0]?.current) {
+			otpInputRefs[0].current.focus();
+		}
+	}, []);
 	
 	return (
 		<AuthFormWrapper>
@@ -88,7 +94,6 @@ const EmailVerificationUsingCode = () => {
 						onPaste={handleInvalidOTPOnPaste}
 						onKeyDown={handleInvalidOTPInput}
 						hasError={isVerificationError}
-						autoFocus={index === 0}
 						ref={otpInputRef}
 						className="otp"
 						placeholder="-"

@@ -10,8 +10,9 @@ import { Input, InputRef } from 'antd';
 interface InputProps {
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  onFocus?: (e: ChangeEvent<HTMLInputElement>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: ChangeEvent<HTMLInputElement>) => void;
+  type?: 'password' | 'email' | 'text' | 'tel';
   onInput?: (e: FormEvent) => void;
   actionText?: ReactNode;
   helpText?: ReactNode;
@@ -25,7 +26,6 @@ interface InputProps {
   size?: SizeType;
   label?: string;
   value?: string;
-  type?: string;
   name?: string;
   id?: string;
 }
