@@ -77,11 +77,11 @@ const EmailVerificationUsingCode = () => {
 		restartTimer();
 	};
 
-	useEffect(() => {
-		if (otpInputRefs[0]?.current) {
-			otpInputRefs[0].current.focus();
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (otpInputRefs[0]?.current) {
+	// 		otpInputRefs[0].current.focus();
+	// 	}
+	// }, []);
 	
 	return (
 		<AuthFormWrapper>
