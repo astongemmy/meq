@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
-import Home from '@/components/home';
+import SignUp from '@/components/auth/sign-up';
 
 export const metadata: Metadata = {
-  title: 'Home | Mega Quest Admin Console',
+  title: 'Sign Up',
 };
 
 const Page = () => (
-  <Home />
+  <SignUp />
 );
 
 export default Page;

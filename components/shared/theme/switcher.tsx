@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import useClickAway from '@/hooks/useClickAway';
 import { useAppDispatch } from '@/store/hooks';
+import useClickAway from '@/hooks/click-away';
 import colors from '../../../lib/colors';
 import { changeTheme } from './reducer';
 import { AppDispatch } from '@/store';

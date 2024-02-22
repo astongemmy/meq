@@ -4,15 +4,16 @@ import type { Viewport } from 'next';
 
 import AntDesignThemeProvider from '@/components/shared/theme/provider';
 import ThemeSwitcher from '@/components/shared/theme/switcher';
-import { Footer, Header } from 'antd/es/layout/layout';
+import { NextAuthProvider } from '@/components/auth/provider';
+import GlobalStyles from '@/styles/global-styles';
 import ReduxProvider from '../store/provider';
-import '../public/css/globals.css';
 import colors from '../lib/colors';
-import { Layout } from 'antd';
 
 const rethinkSans = Rethink_Sans({
   variable: '--font-rethink-sans',
+  adjustFontFallback: false,
   subsets: ['latin'],
+  display: 'swap'
 });
 
 export const viewport: Viewport = {
@@ -92,26 +93,22 @@ export const metadata: Metadata = {
   }
 };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode;} >) => {
+const RootLayout = async ({ children }: Readonly<{ children: React.ReactNode;} >) => {
   return (
-    <ReduxProvider>
-      <html lang="en">
-        <body className={`${rethinkSans.variable} ${rethinkSans.className}`}>
-          <AntDesignThemeProvider>
-            <Layout>
-              <ThemeSwitcher />
-              <Header>
-                Header side
-              </Header>
-              
+    <NextAuthProvider>
+      <ReduxProvider>
+        <html lang="en">
+          <body className={`${rethinkSans.variable} ${rethinkSans.className}`}>
+            <GlobalStyles />
+            
+            <AntDesignThemeProvider>
+              {/* <ThemeSwitcher /> */}
               {children}
-
-              <Footer>Small Footer</Footer>
-            </Layout>
-          </AntDesignThemeProvider>
-        </body>
-      </html>
-    </ReduxProvider>
+            </AntDesignThemeProvider>
+          </body>
+        </html>
+      </ReduxProvider>
+    </NextAuthProvider>
   );
 };
 
