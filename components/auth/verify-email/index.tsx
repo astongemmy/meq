@@ -49,8 +49,8 @@ const verificationInterface: VerificationInterface = {
 	}
 };
 
-const EmailVerification = () => {
-	const { verificationError, isVerifying, isVerified } = useAppSelector(state => state.auth);
+const Suspended = () => {
+	const { isVerified } = useAppSelector(state => state.auth);
 
   const searchParams = useSearchParams();
   const isRedirectedFromMailbox = searchParams.get('verifyWithLink');
@@ -58,6 +58,22 @@ const EmailVerification = () => {
   const otp = searchParams.get('otp');
 
 	const isLinkVerification = isRedirectedFromMailbox && jwtToken && otp;
+
+  return (
+		<>	
+			{!isVerified && !isLinkVerification && (
+				<EmailVerificationUsingCode />
+			)}
+
+			{!isVerified && isLinkVerification && (
+				<EmailVerificationUsingLink />
+			)}
+		</>
+  );
+};
+
+const EmailVerification = () => {
+	const { verificationError, isVerifying, isVerified } = useAppSelector(state => state.auth);
 
 	const verificationStatus = {
 		unknownError: verificationError.unknownError,
@@ -70,39 +86,33 @@ const EmailVerification = () => {
 	const statusKey = Object.entries(verificationStatus).find(([key, value]) => value && key)?.[0] ?? 'verifyEmail';
 
   return (
-		<Suspense fallback="Loading">
-			<AuthWrapper vertical>
-				<Image
-					src={verificationInterface[statusKey].icon}
-					alt={verificationInterface[statusKey].alt}
-					height={135}
-					width={120}
-					priority
-				/>
+		<AuthWrapper vertical>
+			<Image
+				src={verificationInterface[statusKey].icon}
+				alt={verificationInterface[statusKey].alt}
+				height={135}
+				width={120}
+				priority
+			/>
 
-				<div>
-					<h1>{verificationInterface[statusKey].title}</h1>
-					
-					<p>
-						{verificationInterface[statusKey].description}
-					</p>
-				</div>
+			<div>
+				<h1>{verificationInterface[statusKey].title}</h1>
 				
-				{!isVerified && !isLinkVerification && (
-					<EmailVerificationUsingCode />
-				)}
-
-				{!isVerified && isLinkVerification && (
-					<EmailVerificationUsingLink />
-				)}
-				
-				{isVerified && (
-					<LinkWrapper href="/auth">
-						Login to Get Started
-					</LinkWrapper>
-				)}
-			</AuthWrapper>
-		</Suspense>
+				<p>
+					{verificationInterface[statusKey].description}
+				</p>
+			</div>
+			
+			<Suspense fallback={<div>Loading</div>}>
+				<Suspended />
+			</Suspense>
+			
+			{isVerified && (
+				<LinkWrapper href="/auth">
+					Login to Get Started
+				</LinkWrapper>
+			)}
+		</AuthWrapper>
   );
 };
 
