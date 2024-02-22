@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import Image from 'next/image';
 
 import EmailVerificationUsingLink from './link-verification';
@@ -69,37 +70,39 @@ const EmailVerification = () => {
 	const statusKey = Object.entries(verificationStatus).find(([key, value]) => value && key)?.[0] ?? 'verifyEmail';
 
   return (
-		<AuthWrapper vertical>
-			<Image
-				src={verificationInterface[statusKey].icon}
-				alt={verificationInterface[statusKey].alt}
-				height={135}
-				width={120}
-				priority
-			/>
+		<Suspense fallback="Loading">
+			<AuthWrapper vertical>
+				<Image
+					src={verificationInterface[statusKey].icon}
+					alt={verificationInterface[statusKey].alt}
+					height={135}
+					width={120}
+					priority
+				/>
 
-      <div>
-				<h1>{verificationInterface[statusKey].title}</h1>
+				<div>
+					<h1>{verificationInterface[statusKey].title}</h1>
+					
+					<p>
+						{verificationInterface[statusKey].description}
+					</p>
+				</div>
 				
-				<p>
-					{verificationInterface[statusKey].description}
-				</p>
-			</div>
-			
-			{!isVerified && !isLinkVerification && (
-				<EmailVerificationUsingCode />
-			)}
+				{!isVerified && !isLinkVerification && (
+					<EmailVerificationUsingCode />
+				)}
 
-			{!isVerified && isLinkVerification && (
-				<EmailVerificationUsingLink />
-			)}
-			
-			{isVerified && (
-				<LinkWrapper href="/auth">
-					Login to Get Started
-				</LinkWrapper>
-			)}
-    </AuthWrapper>
+				{!isVerified && isLinkVerification && (
+					<EmailVerificationUsingLink />
+				)}
+				
+				{isVerified && (
+					<LinkWrapper href="/auth">
+						Login to Get Started
+					</LinkWrapper>
+				)}
+			</AuthWrapper>
+		</Suspense>
   );
 };
 

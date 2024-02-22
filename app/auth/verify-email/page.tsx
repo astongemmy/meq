@@ -6,16 +6,7 @@ export const metadata: Metadata = {
   title: 'Verify Email',
 };
 
-interface PageProps {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  },
-  params: {
-    [key: string]: string;
-  }
-};
-
-const Page = ({ searchParams }: PageProps) => (
+const Page = () => (
   <EmailVerification />
 );
 
