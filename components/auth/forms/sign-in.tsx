@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { ExclamationCircleFilled } from '@ant-design/icons';
 import { ChangeEvent, useState } from 'react';
 import { Button } from 'antd';
@@ -17,7 +18,7 @@ const SignInForm = () => {
   const dispatch = useAppDispatch();
 
   const [validationError, setValidationError] = useState<SignInValidationError>({
-    wrongPassword: true,
+    wrongPassword: false,
     invalidEmail: false
   });
 
@@ -25,6 +26,8 @@ const SignInForm = () => {
     password: '',
     email: '',
   });
+
+  const { data: session } = useSession();
 
   const handleCredentialChange = ({
     target: { name, value },
@@ -56,18 +59,28 @@ const SignInForm = () => {
     }
   }));
 
-  const handleSignIn = (e: React.FormEvent) => {
+  console.log(session);
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
 
-    setTimeout(() => {
-      setValidationError((prev) => ({
-        ...prev,
-        wrongPassword: true
-      }));
-      setIsLoading(false);
-    }, 2000);
+    signIn('credentials', {
+      password: credentials.password,
+      email: credentials.email,
+      redirect: false
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
-    e.preventDefault();
+    // setTimeout(() => {
+    //   setValidationError((prev) => ({
+    //     ...prev,
+    //     wrongPassword: true
+    //   }));
+    //   setIsLoading(false);
+    // }, 2000);
   };
 
   const disableSignInButton = (
@@ -129,6 +142,15 @@ const SignInForm = () => {
         size="large"
       >
         {!isLoading && "Login"}
+      </Button>
+
+      <Button
+        onClick={() => signOut()}
+        htmlType="button"
+        type="primary"
+        size="large"
+      >
+        Logout
       </Button>
 
       <p className="create-account">
