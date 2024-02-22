@@ -79,12 +79,12 @@ const EmailVerificationUsingCode = () => {
 		restartTimer();
 	};
 
-	useEffect(() => {
-		if (otpWrapperRef?.current) {
-			const otpInputs = otpWrapperRef?.current?.querySelectorAll('input');
-			otpInputs[0].focus();
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (otpWrapperRef?.current) {
+	// 		const otpInputs = otpWrapperRef?.current?.querySelectorAll('input');
+	// 		otpInputs[0].focus();
+	// 	}
+	// }, []);
 	
 	return (
 		<AuthFormWrapper>
