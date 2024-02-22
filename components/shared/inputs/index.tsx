@@ -117,4 +117,6 @@ const InputField = React.forwardRef((props: InputProps, ref: Ref<InputRef>) => {
   );
 });
 
+InputField.displayName = 'InputField';
+
 export default InputField;

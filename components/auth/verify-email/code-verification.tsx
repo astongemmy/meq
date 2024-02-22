@@ -1,8 +1,8 @@
 'use client';
 
 import { ExclamationCircleFilled } from '@ant-design/icons';
-import { Button, Flex, InputRef } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import { Button, Flex } from 'antd';
 import Image from 'next/image';
 
 import { setIsVerified, setIsVerifying, updateVerificationError } from '../reducer';
@@ -24,8 +24,8 @@ const EmailVerificationUsingCode = () => {
 
 	const isCodeProvided = credentials.confirmationCode.filter((item) => item).length === codeDigits;
 	const isVerificationError = verificationError.expiredCode || verificationError.invalidCode;
-	const otpInputRefs = Array.from({ length: codeDigits }, () => useRef<InputRef>(null));
 	const { restartTimer, timeLeft, timeUp } = useCountdownTimer(0.5);
+	const otpWrapperRef = useRef<HTMLDivElement>(null);
 	const dispatch = useAppDispatch();
 	
 	const verifyEmail = (e: React.MouseEvent) => {
@@ -64,11 +64,14 @@ const EmailVerificationUsingCode = () => {
 		});
 
 		setCredentials({ ...credentials, confirmationCode: newConfirmationCode });
-		
-		if (value.length >= 1 && inputIndex < otpInputRefs.length - 1) {
-			otpInputRefs[inputIndex + 1].current?.focus();
-		} else if (value.length === 0 && inputIndex > 0) {
-			otpInputRefs[inputIndex - 1].current?.focus();
+
+		const otpInputs = otpWrapperRef?.current?.querySelectorAll('input');
+		if (otpInputs?.length) {
+			if (value.length >= 1 && inputIndex < otpInputs.length - 1) {
+				otpInputs[inputIndex + 1].focus();
+			} else if (value.length === 0 && inputIndex > 0) {
+				otpInputs[inputIndex - 1].focus();
+			}
 		}
 	};
 
@@ -76,16 +79,17 @@ const EmailVerificationUsingCode = () => {
 		restartTimer();
 	};
 
-	// useEffect(() => {
-	// 	if (otpInputRefs[0]?.current) {
-	// 		otpInputRefs[0].current.focus();
-	// 	}
-	// }, []);
+	useEffect(() => {
+		if (otpWrapperRef?.current) {
+			const otpInputs = otpWrapperRef?.current?.querySelectorAll('input');
+			otpInputs[0].focus();
+		}
+	}, []);
 	
 	return (
 		<AuthFormWrapper>
-			<Flex className="otp-wrapper" justify="space-between">
-				{otpInputRefs.map((otpInputRef, index) => (
+			<Flex className="otp-wrapper" justify="space-between" ref={otpWrapperRef}>
+				{Array.from({ length: codeDigits }, (inde, index) => (
 					<InputField
 						value={credentials.confirmationCode[index]}
 						onInput={(e) => handleOTPInput(e, index)}
@@ -93,7 +97,6 @@ const EmailVerificationUsingCode = () => {
 						onPaste={handleInvalidOTPOnPaste}
 						onKeyDown={handleInvalidOTPInput}
 						hasError={isVerificationError}
-						ref={otpInputRef}
 						className="otp"
 						placeholder="-"
 						maxLength={1}
@@ -140,7 +143,7 @@ const EmailVerificationUsingCode = () => {
 				{isVerificationError ? 'Request New OTP' : 'Confirm Email'}
 			</Button>
 		</AuthFormWrapper>
-  );
+	);
 };
 
 export default EmailVerificationUsingCode;
