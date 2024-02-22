@@ -26,19 +26,19 @@ const EmailVerificationUsingCode = () => {
 	const isVerificationError = verificationError.expiredCode || verificationError.invalidCode;
 	const otpInputRefs = Array.from({ length: codeDigits }, () => useRef<InputRef>(null));
 	const { restartTimer, timeLeft, timeUp } = useCountdownTimer(0.5);
-  const dispatch = useAppDispatch();
-  
-  const verifyEmail = (e: React.MouseEvent) => {
-    dispatch(setIsVerifying({ usingCode: true }));
+	const dispatch = useAppDispatch();
+	
+	const verifyEmail = (e: React.MouseEvent) => {
+		dispatch(setIsVerifying({ usingCode: true }));
 
-    setTimeout(() => {
-      dispatch(updateVerificationError({ invalidCode: true }));
-      dispatch(setIsVerifying({ usingCode: false }));
-    //   dispatch(setIsVerified(true));
-    }, 3000);
+		setTimeout(() => {
+			dispatch(updateVerificationError({ invalidCode: true }));
+			dispatch(setIsVerifying({ usingCode: false }));
+			//   dispatch(setIsVerified(true));
+		}, 3000);
 
 		e.preventDefault();
-  };
+	};
 
 	const handleInvalidOTPInput = (e: React.KeyboardEvent<HTMLInputElement>): void => {
 		const keyCode = e.which ?? e.keyCode;
@@ -64,7 +64,6 @@ const EmailVerificationUsingCode = () => {
 		});
 
 		setCredentials({ ...credentials, confirmationCode: newConfirmationCode });
-		console.log(otpInputRefs);
 		
 		if (value.length >= 1 && inputIndex < otpInputRefs.length - 1) {
 			otpInputRefs[inputIndex + 1].current?.focus();
